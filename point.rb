@@ -63,7 +63,6 @@ class Point
     Vector[x, y, z]
   end
 
-  # Pointクラスのインスタンスを引数にとり、その点との距離を返す
   def distance_to(other)
     Math.sqrt((x - other.x)**2 + (y - other.y)**2 + (z - other.z)**2)
   end

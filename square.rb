@@ -1,4 +1,4 @@
-load 'line_segment.rb'
+require './line_segment'
 
 class Square
   def initialize(point1, point2, point3, point4)

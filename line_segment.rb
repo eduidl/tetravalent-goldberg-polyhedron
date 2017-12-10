@@ -1,3 +1,5 @@
+require './point'
+
 class LineSegment
   attr_reader :start_point, :end_point
 

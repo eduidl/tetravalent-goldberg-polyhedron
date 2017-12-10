@@ -1,7 +1,7 @@
 require 'csv'
 
-load 'polyhedron.rb'
-load 'script.rb'
+require './polyhedron'
+require './script'
 
 module Main
   module_function
@@ -10,7 +10,7 @@ module Main
   MINIMUM_DELTA = 0.001.freeze
   DIRECTIONS = [[1, 0], [-1, 0], [0, 1], [0, -1]].freeze
 
-  def calculate_vertices_position!(polyhedron)
+  def fix_vertices_position(polyhedron)
     delta = MAXIMUM_DELTA.dup
     # rss_min = polyhedron.rss
     rss_min = polyhedron.rss
@@ -26,7 +26,7 @@ module Main
         moved_point.phi += delta * DIRECTIONS[i][1]
         did_movement_flag = true
         rss_min = rss
-        p rss_min
+        puts "現在の平均二乗誤差: #{rss_min}"
       end
       next if did_movement_flag
       break if delta < MINIMUM_DELTA
@@ -34,13 +34,10 @@ module Main
     end
   end
 
-  def calculate_vertices_position(polyhedron)
-    calculate_vertices_position!(polyhedron.dup)
-  end
-
   def result(polyhedron)
-    p point_arr = polyhedron.points.map(&:coordinate)
-    p edge_arr = polyhedron.edges.map(&:uniq_ids)
+    puts '計算終了'
+    point_arr = polyhedron.points.map(&:coordinate)
+    edge_arr = polyhedron.edges.map(&:uniq_ids)
     File.open('./js/script.js', 'w+') do |file|
       file.puts ::Script.text(point_arr, edge_arr)
     end
@@ -62,6 +59,7 @@ begin
   raise '値を二つ入力してください' if k.nil?
   raise '非負の値を入力してください' if h.negative? || k.negative?
   raise 'h = k = 0は不適な組です' if h.zero? && k.zero?
+  # h < kのときはhとkを入れ替えて扱う
   h, k = k, h if h < k
 rescue => e
   puts e.message
@@ -69,5 +67,5 @@ rescue => e
 end
 
 polyhedron = Polyhedron.new(h, k)
-Main.calculate_vertices_position!(polyhedron)
+Main.fix_vertices_position(polyhedron)
 Main.result(polyhedron)

@@ -1,4 +1,4 @@
-load 'line_segment.rb'
+require './line_segment'
 
 class Triangle
   def initialize(point1, point2, point3)
