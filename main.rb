@@ -12,7 +12,6 @@ module Main
 
   def fix_vertices_position(polyhedron)
     delta = MAXIMUM_DELTA.dup
-    # rss_min = polyhedron.rss
     rss_min = polyhedron.rss
     loop do
       did_movement_flag = false
