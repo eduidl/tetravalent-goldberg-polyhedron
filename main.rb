@@ -7,14 +7,18 @@ module Main
   module_function
 
   MAXIMUM_DELTA = 0.1
-  MINIMUM_DELTA = 0.001
-  DIRECTIONS = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+  MINIMUM_DELTA = 0.01
+  DIRECTIONS = [
+    [-1, -1], [ 0, -1], [ 1, -1],
+    [-1,  0],           [ 1,  0],
+    [-1,  1], [ 0,  1], [ 1,  1]
+  ]
 
   def fix_vertices_position(polyhedron)
     delta = MAXIMUM_DELTA
     rss_min = polyhedron.rss
     loop do
-      did_movement_flag = false
+      moved_flag = false
       polyhedron.points.select(&:absolute?).each do |moved_point|
         rss_and_indexes = DIRECTIONS.map.with_index do |(theta, phi), i|
           [polyhedron.rss_if_point_moved(moved_point, delta * theta, delta * phi), i]
@@ -23,13 +27,13 @@ module Main
         next if rss >= rss_min
         moved_point.theta += delta * DIRECTIONS[i][0]
         moved_point.phi += delta * DIRECTIONS[i][1]
-        did_movement_flag = true
+        moved_flag = true
         rss_min = rss
         puts "現在の平均二乗誤差: #{rss_min}"
       end
-      next if did_movement_flag
+      next if moved_flag
       break if delta < MINIMUM_DELTA
-      delta /= 2
+      delta /= 3
     end
   end
 

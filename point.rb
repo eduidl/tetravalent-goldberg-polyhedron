@@ -68,6 +68,6 @@ class Point
   end
 
   def coordinate
-    [x, y, z]
+    [x.round(4), y.round(4), z.round(4)]
   end
 end
