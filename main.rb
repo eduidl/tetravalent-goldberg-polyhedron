@@ -6,12 +6,12 @@ require './script'
 module Main
   module_function
 
-  MAXIMUM_DELTA = 0.1.freeze
-  MINIMUM_DELTA = 0.001.freeze
-  DIRECTIONS = [[1, 0], [-1, 0], [0, 1], [0, -1]].freeze
+  MAXIMUM_DELTA = 0.1
+  MINIMUM_DELTA = 0.001
+  DIRECTIONS = [[1, 0], [-1, 0], [0, 1], [0, -1]]
 
   def fix_vertices_position(polyhedron)
-    delta = MAXIMUM_DELTA.dup
+    delta = MAXIMUM_DELTA
     rss_min = polyhedron.rss
     loop do
       did_movement_flag = false
