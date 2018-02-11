@@ -1,6 +1,6 @@
-require './square'
-require './triangle'
-require './point'
+require_relative './square'
+require_relative './triangle'
+require_relative './point'
 
 class Polyhedron
   attr_reader :points, :h, :k
