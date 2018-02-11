@@ -1,7 +1,8 @@
 require 'csv'
+require 'pathname'
 
-require_relative './polyhedron'
-require_relative './script'
+require_relative './ruby/polyhedron'
+require_relative './ruby/script'
 
 module Main
   module_function
@@ -41,11 +42,13 @@ module Main
     puts '計算終了'
     point_arr = polyhedron.points.map(&:coordinate)
     edge_arr = polyhedron.edges.map(&:uniq_ids)
-    File.open('./js/script.js', 'w+') do |file|
+    Pathname.new('./src/data.js').open('w') do |file|
       file.puts ::Script.text(point_arr, edge_arr)
     end
 
-    CSV.open("csv/#{Time.now.strftime('%Y%m%d%H%M%S')}M#{polyhedron.n}L#{2 * polyhedron.n}.csv", 'w+') do |file|
+    csv_dir = Pathname.new('./csv')
+    csv_dir.mkdir() unless csv_dir.exist?
+    CSV.open(csv_dir.join("#{Time.now.strftime('%Y%m%d%H%M%S')}M#{polyhedron.n}L#{2 * polyhedron.n}.csv"), 'w') do |file|
       file << ['h', polyhedron.h]
       file << ['k', polyhedron.k]
       file << ['average length of edges', polyhedron.average_length]
