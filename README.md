@@ -12,4 +12,11 @@
 ruby main.rb
 ```
 で実行。その後にh, kの値を聞かれるので標準入力で答えると計算が始まる。
-結果はcsv/に"#{timestamp}MnL2n.csv"という形で出力され、index.htmlをローカルで開くと、見た目の確認ができる。
+結果はcsv/に"#{timestamp}MnL2n.csv"という形で出力される。
+
+```sh
+npm intsall
+npm run server
+```
+
+で `webpack-dev-server` が立ち上がり、結果の可視化ができる。
