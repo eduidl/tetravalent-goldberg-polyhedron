@@ -17,7 +17,7 @@ ruby main.rb
 結果はcsv/に"#{timestamp}MnL2n.csv"という形で出力される。
 
 ```sh
-npm intsall
+npm install
 npm run server
 ```
 
