@@ -3,9 +3,11 @@ module Script
 
   def text(point_arr, edge_arr)
     <<-SCRIPT
-export const POINTS = #{point_arr};
+import { Edge, Point } from "./types";
 
-export const EDGES = #{edge_arr};
+export const POINTS: Point[] = #{point_arr};
+
+export const EDGES: Edge[] = #{edge_arr};
     SCRIPT
   end
 end

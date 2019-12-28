@@ -1,3 +1,5 @@
+# Tetravalent Goldberg Polyhedron
+
 ## 概要
 
 4価のゴールドバーグ多面体の頂点計算プログラム  
@@ -9,6 +11,11 @@
 
 結果の一部は https://eduidl.github.io/polyhedron/ で確認可能。
 
+## Requirements
+
+- Ruby 2.4.3
+- Node.js
+
 ## 使い方
 ```
 ruby main.rb
@@ -17,8 +24,8 @@ ruby main.rb
 結果はcsv/に"#{timestamp}MnL2n.csv"という形で出力される。
 
 ```sh
-npm install
-npm run server
+npm i
+npm run start
 ```
 
 で `webpack-dev-server` が立ち上がり、結果の可視化ができる。

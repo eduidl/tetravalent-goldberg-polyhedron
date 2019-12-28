@@ -42,7 +42,7 @@ module Main
     puts '計算終了'
     point_arr = polyhedron.points.map(&:coordinate)
     edge_arr = polyhedron.edges.map(&:uniq_ids)
-    Pathname.new('./src/data.js').open('w') do |file|
+    Pathname.new('./src/data.ts').open('w') do |file|
       file.puts ::Script.text(point_arr, edge_arr)
     end
 
