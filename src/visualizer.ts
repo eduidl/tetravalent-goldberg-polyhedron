@@ -1,7 +1,8 @@
 import * as THREE from "three";
+import { ConvexGeometry } from "three/examples/jsm/geometries/ConvexGeometry";
 import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
 
-import { Edge, Point } from "./types";
+import { Point, Edge } from "./types";
 
 export default class Visualizer {
   scene: THREE.Scene;
@@ -14,20 +15,14 @@ export default class Visualizer {
     const height = window.innerHeight;
     this.scene = new THREE.Scene();
 
-    // light
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(0, 100, 30);
-    this.scene.add(light);
-    this.scene.add(new THREE.AmbientLight(0x404040));
-
     // camera
     this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
-    this.camera.position.set(20, 10, 30);
+    this.camera.position.set(25, 25, 25);
 
     // renderer
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(width, height);
-    this.renderer.setClearColor(0xeeeeee);
+    this.renderer.setClearColor(0x010101);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     const stage = document.getElementById("stage");
     if (stage === null) {
@@ -43,7 +38,18 @@ export default class Visualizer {
     this.controls.rotateSpeed = 5.0;
   }
 
-  initialize(edges: Edge[], points: Point[]): void {
+  initialize(points: Point[], edges: Edge[]): void {
+    const vertices = points.map(point => {
+      return new THREE.Vector3(point[0], point[1], point[2]);
+    });
+    const convex = new THREE.Mesh(
+      new ConvexGeometry(vertices),
+      new THREE.MeshNormalMaterial({
+        transparent: true,
+        opacity: 0.8
+      })
+    );
+    this.scene.add(convex);
     for (const edge of edges) {
       const geom = new THREE.Geometry();
       geom.vertices.push(
@@ -62,7 +68,7 @@ export default class Visualizer {
       );
       const line = new THREE.Line(
         geom,
-        new THREE.LineBasicMaterial({ color: "green" })
+        new THREE.LineBasicMaterial({ color: "black" })
       );
       this.scene.add(line);
     }

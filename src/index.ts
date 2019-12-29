@@ -1,8 +1,8 @@
 import Visualizer from "./visualizer";
-import { EDGES, POINTS } from "./data";
+import { POINTS, EDGES } from "./data";
 
 const visualizer = new Visualizer();
-visualizer.initialize(EDGES, POINTS);
+visualizer.initialize(POINTS, EDGES);
 
 const render = (): void => {
   requestAnimationFrame(render);
