@@ -1,8 +1,8 @@
-require 'csv'
-require 'pathname'
+require "csv"
+require "pathname"
 
-require_relative './ruby/polyhedron'
-require_relative './ruby/script'
+require_relative "./ruby/polyhedron"
+require_relative "./ruby/script"
 
 module Main
   module_function
@@ -10,9 +10,9 @@ module Main
   MAXIMUM_DELTA = 0.1
   MINIMUM_DELTA = 0.01
   DIRECTIONS = [
-    [-1, -1], [ 0, -1], [ 1, -1],
-    [-1,  0],           [ 1,  0],
-    [-1,  1], [ 0,  1], [ 1,  1]
+    [-1, -1], [0, -1], [1, -1],
+    [-1, 0], [1, 0],
+    [-1, 1], [0, 1], [1, 1],
   ].freeze
 
   def fix_vertices_position(polyhedron)
@@ -39,32 +39,31 @@ module Main
   end
 
   def result(polyhedron)
-    puts '計算終了'
-    point_arr = polyhedron.points.map(&:coordinate)
-    edge_arr = polyhedron.edges.map(&:uniq_ids)
-    Pathname.new('./src/data.ts').open('w') do |file|
-      file.puts ::Script.text(point_arr, edge_arr)
+    puts "計算終了"
+    Pathname.new("./src/data.ts").open("w") do |f|
+      f.puts ::Script.text(polyhedron)
     end
 
-    csv_dir = Pathname.new('./csv')
+    csv_dir = Pathname.new("./csv")
     csv_dir.mkdir() unless csv_dir.exist?
-    CSV.open(csv_dir.join("#{Time.now.strftime('%Y%m%d%H%M%S')}M#{polyhedron.n}L#{2 * polyhedron.n}.csv"), 'w') do |file|
-      file << ['h', polyhedron.h]
-      file << ['k', polyhedron.k]
-      file << ['average length of edges', polyhedron.average_length]
+    path = csv_dir.join("#{Time.now.strftime("%Y%m%d%H%M%S")}M#{polyhedron.n}L#{2 * polyhedron.n}.csv")
+    CSV.open(path, "w") do |f|
+      f << ["h", polyhedron.h]
+      f << ["k", polyhedron.k]
+      f << ["average length of edges", polyhedron.average_length]
       polyhedron.points.each do |point|
-        file << point.coordinate
+        f << point.coordinate
       end
     end
   end
 end
 
-puts 'hとkをスペース区切りで入力してください'
+puts "hとkをスペース区切りで入力してください"
 begin
   h, k = gets.chomp.split.map(&:to_i)
-  raise '値を二つ入力してください' if k.nil?
-  raise '非負の値を入力してください' if h.negative? || k.negative?
-  raise 'h = k = 0は不適な組です' if h.zero? && k.zero?
+  raise "値を二つ入力してください" if k.nil?
+  raise "非負の値を入力してください" if h.negative? || k.negative?
+  raise "h = k = 0は不適な組です" if h.zero? && k.zero?
   # h < kのときはhとkを入れ替えて扱う
   h, k = k, h if h < k
 rescue => e

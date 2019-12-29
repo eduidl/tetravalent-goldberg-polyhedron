@@ -1,13 +1,13 @@
 module Script
   module_function
 
-  def text(point_arr, edge_arr)
+  def text(polyhedron)
     <<-SCRIPT
-import { Edge, Point } from "./types";
+import { Point, Edge } from "./types";
 
-export const POINTS: Point[] = #{point_arr};
+export const POINTS: Point[] = #{polyhedron.points.map(&:coordinate)};
 
-export const EDGES: Edge[] = #{edge_arr};
+export const EDGES: Edge[] = #{polyhedron.edges.map(&:uniq_ids)};
     SCRIPT
   end
 end

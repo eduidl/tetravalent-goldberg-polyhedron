@@ -20,50 +20,42 @@ class Polyhedron
   end
 
   def squares
-    squares = []
-    if k.zero?
-      # 面の部分
-      d.times do |x|
-        d.times do |y|
-          6.times do |f|
-            squares << face_initialize(id(x, y, f), id(x + 1, y, f), id(x + 1, y + 1, f), id(x, y + 1, f))
-          end
-        end
-      end
-
-      # 辺の部分
-      d.times do |i|
-        squares << face_initialize(id(i, 0, 1), id(i + 1, 0, 1), id(0, i + 1, 0), id(0, i, 0))
-        squares << face_initialize(id(i, 0, 0), id(i + 1, 0, 0), id(0, i + 1, 2), id(0, i, 2))
-        squares << face_initialize(id(i, 0, 2), id(i + 1, 0, 2), id(0, i + 1, 1), id(0, i, 1))
-
-        squares << face_initialize(id(i, d, 0), id(i + 1, d, 0), id(d - (i + 1), d, 3), id(d - i, d, 3))
-        squares << face_initialize(id(i, d, 1), id(i + 1, d, 1), id(d - (i + 1), d, 4), id(d - i, d, 4))
-        squares << face_initialize(id(i, d, 2), id(i + 1, d, 2), id(d - (i + 1), d, 5), id(d - i, d, 5))
-
-        squares << face_initialize(id(d, i, 0), id(d, i + 1, 0), id(d, d - (i + 1), 5), id(d, d - i, 5))
-        squares << face_initialize(id(d, i, 1), id(d, i + 1, 1), id(d, d - (i + 1), 3), id(d, d - i, 3))
-        squares << face_initialize(id(d, i, 2), id(d, i + 1, 2), id(d, d - (i + 1), 4), id(d, d - i, 4))
-
-        squares << face_initialize(id(d - i, 0, 3), id(d - (i + 1), 0, 3), id(0, d - (i + 1), 4), id(0, d - i, 4))
-        squares << face_initialize(id(d - i, 0, 4), id(d - (i + 1), 0, 4), id(0, d - (i + 1), 5), id(0, d - i, 5))
-        squares << face_initialize(id(d - i, 0, 5), id(d - (i + 1), 0, 5), id(0, d - (i + 1), 3), id(0, d - i, 3))
-      end
-    else
-      # 正方形d*d枚の部分
-      d.times do |x|
-        d.times do |y|
-          6.times do |f|
-            squares << face_initialize(id(x, y, f), id(x + 1, y, f), id(x + 1, y + 1, f), id(x, y + 1, f))
-          end
+    return @squares unless @squares.nil?
+    @squares = []
+    # 正方形d*d枚の部分
+    d.times do |x|
+      d.times do |y|
+        6.times do |f|
+          @squares << face_initialize(id(x, y, f), id(x + 1, y, f), id(x + 1, y + 1, f), id(x, y + 1, f))
         end
       end
     end
-    squares
+    if k.zero?
+      # 辺の部分
+      d.times do |i|
+        @squares << face_initialize(id(i, 0, 1), id(i + 1, 0, 1), id(0, i + 1, 0), id(0, i, 0))
+        @squares << face_initialize(id(i, 0, 0), id(i + 1, 0, 0), id(0, i + 1, 2), id(0, i, 2))
+        @squares << face_initialize(id(i, 0, 2), id(i + 1, 0, 2), id(0, i + 1, 1), id(0, i, 1))
+
+        @squares << face_initialize(id(i, d, 0), id(i + 1, d, 0), id(d - (i + 1), d, 3), id(d - i, d, 3))
+        @squares << face_initialize(id(i, d, 1), id(i + 1, d, 1), id(d - (i + 1), d, 4), id(d - i, d, 4))
+        @squares << face_initialize(id(i, d, 2), id(i + 1, d, 2), id(d - (i + 1), d, 5), id(d - i, d, 5))
+
+        @squares << face_initialize(id(d, i, 0), id(d, i + 1, 0), id(d, d - (i + 1), 5), id(d, d - i, 5))
+        @squares << face_initialize(id(d, i, 1), id(d, i + 1, 1), id(d, d - (i + 1), 3), id(d, d - i, 3))
+        @squares << face_initialize(id(d, i, 2), id(d, i + 1, 2), id(d, d - (i + 1), 4), id(d, d - i, 4))
+
+        @squares << face_initialize(id(d - i, 0, 3), id(d - (i + 1), 0, 3), id(0, d - (i + 1), 4), id(0, d - i, 4))
+        @squares << face_initialize(id(d - i, 0, 4), id(d - (i + 1), 0, 4), id(0, d - (i + 1), 5), id(0, d - i, 5))
+        @squares << face_initialize(id(d - i, 0, 5), id(d - (i + 1), 0, 5), id(0, d - (i + 1), 3), id(0, d - i, 3))
+      end
+    end
+    @squares
   end
 
   def triangles
-    if k.zero?
+    return @triangles unless @triangles.nil?
+    @triangels = if k.zero?
       # 全体を立方体のように扱ったときの頂点にあたる
       [
         face_initialize(id(0, 0, 0), id(0, 0, 1), id(0, 0, 2)), #A

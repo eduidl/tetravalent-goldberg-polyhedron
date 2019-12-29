@@ -1,17 +1,15 @@
 require_relative './line_segment'
 
 class Triangle
-  def initialize(point1, point2, point3)
-    @point1 = point1
-    @point2 = point2
-    @point3 = point3
+  def initialize(point0, point1, point2)
+    @vertices = [point0, point1, point2]
   end
 
   def sides
     [
-      LineSegment.new(@point1, @point2),
-      LineSegment.new(@point2, @point3),
-      LineSegment.new(@point3, @point1)
+      LineSegment.new(@vertices[0], @vertices[1]),
+      LineSegment.new(@vertices[1], @vertices[2]),
+      LineSegment.new(@vertices[2], @vertices[0])
     ]
   end
 end
