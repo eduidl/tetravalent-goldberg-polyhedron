@@ -5,8 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "webpack-dev-server -w --open",
-    "lint": "eslint src/*.ts",
-    "lint:fix": "eslint src/*.ts --fix"
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
   },
   "repository": {
     "type": "git",
